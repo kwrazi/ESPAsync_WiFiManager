@@ -49,6 +49,7 @@ ESPAsync_WMParameter::ESPAsync_WMParameter(const char *custom)
   _WMParam_data._labelPlacement = WFM_LABEL_BEFORE;
 
   _customHTML = custom;
+  _customID = NULL;
 }
 
 //////////////////////////////////////////
@@ -91,6 +92,7 @@ void ESPAsync_WMParameter::init(const char *id, const char *placeholder, const c
   }
 
   _customHTML = custom;
+  _customID = NULL;
 }
 
 //////////////////////////////////////////
@@ -133,7 +135,11 @@ const char* ESPAsync_WMParameter::getValue()
 
 const char* ESPAsync_WMParameter::getID()
 {
-  return _WMParam_data._id;
+    return _WMParam_data._id;
+}
+
+const char* ESPAsync_WMParameter::getCustomID() {
+  return _customID;
 }
 
 //////////////////////////////////////////
@@ -162,6 +168,24 @@ int ESPAsync_WMParameter::getLabelPlacement()
 const char* ESPAsync_WMParameter::getCustomHTML()
 {
   return _customHTML;
+}
+
+void ESPAsync_WMParameter::setCustomID(const char *id, const char *defaultValue, const int& length) {
+
+  _customID = id;
+  _WMParam_data._length = length;
+
+  _WMParam_data._value = new char[_WMParam_data._length + 1];
+
+  if (_WMParam_data._value != NULL)
+  {
+    memset(_WMParam_data._value, 0, _WMParam_data._length + 1);
+
+    if (defaultValue != NULL)
+    {
+      strncpy(_WMParam_data._value, defaultValue, _WMParam_data._length);
+    }
+  }
 }
 
 //////////////////////////////////////////
@@ -1763,8 +1787,11 @@ void ESPAsync_WiFiManager::handleWifiSave(AsyncWebServerRequest *request)
       break;
     }
 
+    auto input_id = _params[i]->getID();
+    if (input_id == NULL) { input_id = _params[i]->getCustomID(); }
+
     //read parameter
-    String value = request->arg(_params[i]->getID()).c_str();
+    String value = request->arg(input_id).c_str();
 
     //store it in array
     value.toCharArray(_params[i]->_WMParam_data._value, _params[i]->_WMParam_data._length);

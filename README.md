@@ -2119,6 +2119,14 @@ ESPAsync_WMParameter custom_text("<p>This is just a text paragraph</p>");
 ESPAsync_wifiManager.addParameter(&custom_text);
 ```
 
+- add select option to html in the configuration form
+
+```cpp
+ESPAsync_WMParameter custom_text("<select name=x id=x><option value=A>A<option value=B>B<option value=C>C</select>");
+ESPAsync_wifiManager.addParameter(&custom_text);
+custom_text.setCustomID("x", "A", 1);
+```
+
 - inject a custom bit of html in a configuration form element
 Just add the bit you want added as the last parameter to the custom parameter constructor.
 

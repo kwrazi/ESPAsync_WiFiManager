@@ -505,17 +505,20 @@ class ESPAsync_WMParameter
     void getWMParam_Data(WMParam_Data& WMParam_data);
  
     const char *getID();
+    const char *getCustomID();
     const char *getValue();
     const char *getPlaceholder();
     int         getValueLength();
     int         getLabelPlacement();
     const char *getCustomHTML();
-    
+
+    void setCustomID(const char *id, const char *defaultValue, const int& length);
   private:
   
     WMParam_Data _WMParam_data;
     
     const char *_customHTML;
+    const char *_customID;
 
     void init(const char *id, const char *placeholder, const char *defaultValue, const int& length, 
               const char *custom, const int& labelPlacement);
