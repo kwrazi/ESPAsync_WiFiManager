@@ -1467,25 +1467,25 @@ void ESPAsync_WiFiManager::handleRoot(AsyncWebServerRequest *request)
   page += FPSTR(WM_HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(WM_HTTP_HEAD_END);
-  page += "<h2>";
+  page += F("<h2>");
   page += _apName;
+  page += F(" Settings</h2>");
 
   if (WiFi_SSID() != "")
   {
+    page += "<h5>";
     if (WiFi.status() == WL_CONNECTED)
     {
-      page += " on ";
       page += WiFi_SSID();
+      page += F(" connected.");
     }
     else
     {
-      page += " <s>on ";
-      page += WiFi_SSID();
-      page += "</s>";
+      page += F("No network.");
     }
+    page += F("</h5>");
   }
 
-  page += "</h2>";
   page += FPSTR(WM_FLDSET_START);
   page += FPSTR(WM_HTTP_PORTAL_OPTIONS);
   page += F("<div class=\"msg\">");
